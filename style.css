@@ -1,0 +1,49 @@
+html, body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.fleches {
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  padding: 40px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cartes {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.carte {
+  --color: white;
+  --zIndex: 10;
+  --offset: 0;
+
+  --width: 200px;
+  --ratio: 1.4;
+
+  width: var(--width);
+  height: calc(var(--width) * var(--ratio));
+  background-color: var(--color);
+  z-index: var(--zIndex);
+  margin-top: var(--offset);
+  margin-left: var(--offset);
+ 
+  border-radius: 4px;
+  padding: 20px;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%)
+}
