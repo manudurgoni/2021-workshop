@@ -38,6 +38,8 @@ html, body {
   z-index: var(--zIndex);
   margin-top: var(--offset);
   margin-left: var(--offset);
+
+  border: 1px solid black;
  
   border-radius: 4px;
   padding: 20px;
