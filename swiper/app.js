@@ -37,6 +37,11 @@ const init = () => {
     card.style.setProperty('--rotationX', `${rotationX}deg`)
 
     card.style.setProperty('--left', '50%')
+
+
+    card.innerHTML = `<span class="carte__number">${i}</span>`
+
+    // card.innerHTML = `<img class="carte__number" src="https://www.placecage.com/${350 + Math.floor(Math.random() * 40)}/360" />`
   })
 }
 

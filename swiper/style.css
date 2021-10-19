@@ -41,6 +41,7 @@ html, body {
   z-index: var(--zIndex);
   margin-top: var(--offsetY);
   margin-left: var(--offsetX);
+  overflow: hidden;
 
   border: 1px solid black;
  
@@ -52,4 +53,13 @@ html, body {
   left: var(--left);
   transform: translate(-50%, -50%) rotate(var(--rotationX));
   transition: left 0.9s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carte__number {
+  font-family: Helvetica;
+  font-size: 120px;
 }
