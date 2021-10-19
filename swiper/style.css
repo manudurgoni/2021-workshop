@@ -27,7 +27,9 @@ html, body {
 .carte {
   --color: white;
   --zIndex: 10;
-  --offset: 0;
+  --offsetX: 0;
+  --offsetY: 0;
+  --rotationX: 0deg;
 
   --width: 200px;
   --ratio: 1.4;
@@ -36,8 +38,8 @@ html, body {
   height: calc(var(--width) * var(--ratio));
   background-color: var(--color);
   z-index: var(--zIndex);
-  margin-top: var(--offset);
-  margin-left: var(--offset);
+  margin-top: var(--offsetY);
+  margin-left: var(--offsetX);
 
   border: 1px solid black;
  
@@ -47,5 +49,5 @@ html, body {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%)
+  transform: translate(-50%, -50%) rotate(var(--rotationX))
 }
