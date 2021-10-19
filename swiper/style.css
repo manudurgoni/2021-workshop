@@ -27,6 +27,7 @@ html, body {
 .carte {
   --color: white;
   --zIndex: 10;
+  --left: 50%;
   --offsetX: 0;
   --offsetY: 0;
   --rotationX: 0deg;
@@ -48,6 +49,6 @@ html, body {
 
   position: absolute;
   top: 50%;
-  left: 50%;
+  left: var(--left);
   transform: translate(-50%, -50%) rotate(var(--rotationX))
 }

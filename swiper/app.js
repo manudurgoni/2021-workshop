@@ -1,9 +1,16 @@
-const init = () => {
+const btnPrev = document.querySelector('.fleche--prev')
+const btnNext = document.querySelector('.fleche--next')
 
-  const cards = document.querySelectorAll('.carte')
+const cards = document.querySelectorAll('.carte')
+let currentCardIndex = 0
+
+const init = () => {
 
   const nbCards = cards.length - 1
   cards.forEach((card, i) => {
+    // On applique la class active au premier item du tableau
+    if (i === currentCardIndex) card.classList.add('active')
+
     // On stock si l'index et pair ou impar
     const isEven = i % 2 === 0
     // On créé un multiplicateur positif ou negatif
@@ -32,5 +39,33 @@ const init = () => {
   })
 }
 
+const goPrev = () => {
+  const activeCard = cards[currentCardIndex]
+  activeCard.classList.remove('active')
+  
+  currentCardIndex -= 1
+  currentCardIndex = Math.max(currentCardIndex, 0)
+
+  const prevCard = cards[currentCardIndex]
+  prevCard.classList.add('active')
+}
+
+const goNext = () => {
+  const activeCard = cards[currentCardIndex]
+  activeCard.classList.remove('active')
+
+  currentCardIndex += 1
+  currentCardIndex = Math.min(currentCardIndex, cards.length - 1)
+
+  const nextCard = cards[currentCardIndex]
+  nextCard.classList.add('active')
+}
+
+const addListeners = () => {
+  btnPrev.addEventListener('click', goPrev)
+  btnNext.addEventListener('click', goNext)
+}
+
 
 init()
+addListeners()
