@@ -2,10 +2,10 @@ const btnPrev = document.querySelector('.fleche--prev')
 const btnNext = document.querySelector('.fleche--next')
 
 const cards = document.querySelectorAll('.carte')
-let currentCardIndex = 0
+let currentCardIndex
 
 const init = () => {
-
+  currentCardIndex = 0
   const nbCards = cards.length - 1
   cards.forEach((card, i) => {
     // On applique la class active au premier item du tableau
@@ -34,36 +34,52 @@ const init = () => {
 
     //Rotation
     const rotationX = (i + 1) * Math.PI * 0.5
-
     card.style.setProperty('--rotationX', `${rotationX}deg`)
+
+    card.style.setProperty('--left', '50%')
   })
 }
 
-const goPrev = () => {
-  const activeCard = cards[currentCardIndex]
-  activeCard.classList.remove('active')
+// const goPrev = () => {
+//   const activeCard = cards[currentCardIndex]
+//   activeCard.classList.remove('active')
   
-  currentCardIndex -= 1
-  currentCardIndex = Math.max(currentCardIndex, 0)
+//   currentCardIndex -= 1
+//   currentCardIndex = Math.max(currentCardIndex, 0)
 
-  const prevCard = cards[currentCardIndex]
-  prevCard.classList.add('active')
-}
+//   const prevCard = cards[currentCardIndex]
+//   prevCard.classList.add('active')
+// }
 
-const goNext = () => {
+const goNextCard = (isNext) => {
+  if (currentCardIndex === cards.length) {
+    init()
+    return
+  }
+
   const activeCard = cards[currentCardIndex]
-  activeCard.classList.remove('active')
+
+  const left = isNext ? 80 : 20
+  activeCard.style.setProperty('--left', `${left}%`)
+
+  const mult = Math.random() > 0.5 ? 1 : -1
+  const rotationX = Math.random() * 3 * mult 
+  activeCard.style.setProperty('--rotationX', `${rotationX}deg`)
 
   currentCardIndex += 1
-  currentCardIndex = Math.min(currentCardIndex, cards.length - 1)
 
-  const nextCard = cards[currentCardIndex]
-  nextCard.classList.add('active')
+  activeCard.style.setProperty('--zIndex', cards.length + currentCardIndex)
+  // setTimeout(() => {
+  // }, 1000)
 }
 
 const addListeners = () => {
-  btnPrev.addEventListener('click', goPrev)
-  btnNext.addEventListener('click', goNext)
+  btnPrev.addEventListener('click', () => {
+    goNextCard(false)
+  })
+  btnNext.addEventListener('click', () => {
+    goNextCard(true)
+  })
 }
 
 
