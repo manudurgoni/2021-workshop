@@ -1,5 +1,7 @@
+let isFetching = false
 let accessToken
 let tracksContainer = document.querySelector('.tracks')
+let button = document.querySelector('.reload')
 
 const getUrlParameter = (sParam) => {
   let sPageURL = window.location.search.substring(1),////substring will take everything after the https link and split the #/&
@@ -18,7 +20,6 @@ const getUrlParameter = (sParam) => {
 
 const auth = () => {
   accessToken = getUrlParameter('access_token');
-  console.log(accessToken)
   let client_id = "91eb4c0b666d43b796dd8f2a6aa6bb95"
   let redirect_uri = "http://localhost:5500/api/"
 
@@ -30,6 +31,11 @@ const auth = () => {
 };
 
 const getRecommandations = async () => {
+  console.log('isFetching', isFetching)
+  if (isFetching) return
+  isFetching = true
+
+  tracksContainer.innerHTML = ''
 
   const params = {
     params: {
@@ -46,13 +52,14 @@ const getRecommandations = async () => {
   const response = await axios.get("https://api.spotify.com/v1/recommendations", params);
   const recommendations = response.data
 
+  isFetching = false
+
   recommendations.tracks.forEach((track) => {
     createTrack(track)
   })
 };
 
 const createTrack = (track) => {
-  console.log(track)
   const el = document.createElement('div')
   el.classList.add('track')
 
@@ -80,6 +87,10 @@ const createTrack = (track) => {
 
 auth()
 
-if (accessToken)
+if (accessToken) {
   getRecommandations()
+
+  const btn = document.querySelector('.reload')
+  btn.addEventListener('click', getRecommandations)
+}
 // getRecommandations();
