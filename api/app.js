@@ -1,4 +1,5 @@
 let accessToken
+let tracksContainer = document.querySelector('.tracks')
 
 const getUrlParameter = (sParam) => {
   let sPageURL = window.location.search.substring(1),////substring will take everything after the https link and split the #/&
@@ -29,23 +30,56 @@ const auth = () => {
 };
 
 const getRecommandations = async () => {
-  const response = await fetch("fakeData.json");
-  const json = await response.json();
 
-  // Afficher le contenu de la propriete 1 dans un H1
-  // Afficher le contenu de la propriete 2 dans un p
+  const params = {
+    params: {
+      limit: 9,
+      market: 'FR',
+      popularity: '85',
+      seed_genres: 'hip-hop'
+    },
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+}
 
-  writeText(json);
-  console.log(json);
+  const response = await axios.get("https://api.spotify.com/v1/recommendations", params);
+  const recommendations = response.data
+
+  recommendations.tracks.forEach((track) => {
+    createTrack(track)
+  })
 };
 
-const writeText = (json) => {
-  const title = document.querySelector(".title");
-  const text = document.querySelector(".text");
+const createTrack = (track) => {
+  console.log(track)
+  const el = document.createElement('div')
+  el.classList.add('track')
 
-  title.innerHTML = json.id;
-  text.innerHTML = json.artist;
-};
+  const album = track.album
+  const artists = track.artists.map((artist) => {
+    return artist.name
+  })
+
+
+  const inner = /*html*/`
+    <div class="track__album">
+      <img src="${album.images[0].url}" alt="">
+    </div>
+    <div class="track__infos">
+      <p class="name">${track.name}</p>
+
+      <div class="artists">${artists}</div>
+    </div>
+  `
+
+  el.innerHTML = inner
+
+  tracksContainer.append(el)
+}
 
 auth()
+
+if (accessToken)
+  getRecommandations()
 // getRecommandations();
