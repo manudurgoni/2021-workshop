@@ -4,6 +4,7 @@ html, body {
   padding: 0;
   font-family: 'Montserrat', sans-serif;
 }
+
 *, *:before, *:after {
   box-sizing: inherit;
 }
