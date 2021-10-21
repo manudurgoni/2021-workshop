@@ -1,7 +1,10 @@
 let isFetching = false
 let accessToken
+let tracks = []
+// Dom element
 let tracksContainer = document.querySelector('.tracks')
 let button = document.querySelector('.reload')
+let audioElement
 
 const getUrlParameter = (sParam) => {
   let sPageURL = window.location.search.substring(1),////substring will take everything after the https link and split the #/&
@@ -31,18 +34,17 @@ const auth = () => {
 };
 
 const getRecommandations = async () => {
-  console.log('isFetching', isFetching)
   if (isFetching) return
   isFetching = true
 
   tracksContainer.innerHTML = ''
+  audioElement.pause()
 
   const params = {
     params: {
       limit: 9,
       market: 'FR',
-      popularity: '85',
-      seed_genres: 'hip-hop'
+      seed_genres: 'jazz'
     },
     headers: {
       'Authorization': `Bearer ${accessToken}`
@@ -51,6 +53,9 @@ const getRecommandations = async () => {
 
   const response = await axios.get("https://api.spotify.com/v1/recommendations", params);
   const recommendations = response.data
+
+  // if (tracks)
+
 
   isFetching = false
 
@@ -83,14 +88,41 @@ const createTrack = (track) => {
   el.innerHTML = inner
 
   tracksContainer.append(el)
+
+
+  el.addEventListener('click', () => {
+    toggleAudio(track)
+  })
+}
+
+const createAudio = () => {
+  audioElement = document.createElement('audio')
+}
+
+const toggleAudio = (track) => {
+  if (!track.preview_url) return
+
+  if (track.isPlaying) {
+    audioElement.pause()
+    track.isPlaying = false
+  } else {
+    track.isPlaying = true
+    
+    audioElement.src = track.preview_url
+    audioElement.play()
+  }
+
+}
+
+const addListeners = () => {
+  button.addEventListener('click', getRecommandations)
 }
 
 auth()
 
 if (accessToken) {
+  createAudio()
   getRecommandations()
-
-  const btn = document.querySelector('.reload')
-  btn.addEventListener('click', getRecommandations)
+  addListeners()
 }
 // getRecommandations();
